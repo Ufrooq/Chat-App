@@ -5,3 +5,6 @@ body {
   box-sizing: border-box;
   font-family: "Quicksand", sans-serif;
 }
+::selection {
+  background-color: #da22ff;
+}
