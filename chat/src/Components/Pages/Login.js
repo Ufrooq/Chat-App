@@ -1,19 +1,70 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [userData, setuserData] = useState({
     username: "",
     password: "",
   });
 
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+  });
   const handleChange = (e) => {
     setuserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = (e) => {
+  const handleValidation = () => {
+    const { username, password } = userData;
+    if (username.length < 1) {
+      setErrors({
+        ...errors,
+        ["username"]: "username is required !",
+      });
+      return false;
+    } else if (password.length < 1) {
+      setErrors({
+        ...errors,
+        ["password"]: "password is required !",
+      });
+      return false;
+    } else {
+      setErrors({
+        ...errors,
+        ["username"]: "",
+        ["password"]: "",
+      });
+      return true;
+    }
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(userData);
+    const { username, password } = userData;
+    if (handleValidation()) {
+      try {
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/users/register`,
+          {
+            username,
+            password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (data) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
   };
   return (
     <div className="login">
@@ -27,12 +78,14 @@ const Login = () => {
           name="username"
           onChange={handleChange}
         />
+        <span>{errors.username}</span>
         <input
           type="password"
           placeholder="Password"
           name="password"
           onChange={handleChange}
         />
+        <span>{errors.password}</span>
         <button>Login User</button>
         <p>
           Do not have an account ?{" "}

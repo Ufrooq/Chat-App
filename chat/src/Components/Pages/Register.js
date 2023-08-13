@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./styles.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [userData, setuserData] = useState({
     username: "",
     email: "",
@@ -78,7 +79,9 @@ const Register = () => {
             },
           }
         );
-        console.log(data);
+        if (data) {
+          navigate("/");
+        }
       } catch (error) {
         console.log(error.message);
       }
