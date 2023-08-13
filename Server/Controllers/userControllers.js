@@ -1,5 +1,14 @@
 import userModel from "../Models/userModels.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+const createToken = async (id) => {
+  return jwt.sign({ id }, process.env.EXCESS_TOKEN, {
+    expiresIn: 60 * 60 * 24 * 3,
+  });
+};
 
 export const registerUser = async (req, res) => {
   try {
@@ -16,9 +25,45 @@ export const registerUser = async (req, res) => {
       password: hashedpassword,
     });
     delete newUser.password;
-    console.log(newUser);
-    res.status(200).json({ newUser });
+    const jwt_token = createToken(newUser._id);
+    res
+      .cookie("token", jwt_token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: new Date(Date.now() + 3 * 1000 * 24 * 60 * 60),
+      })
+      .status(200)
+      .json({ userId: newUser._id });
   } catch (error) {
     res.status(200).json(error);
+  }
+};
+
+export const loginUser = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await userModel.findOne({ username });
+    if (user) {
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
+      if (isPasswordCorrect) {
+        const excess_Token = createToken(user._id);
+        res
+          .cookie("token", excess_Token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: new Date(Date.now() + 3 * 1000 * 24 * 60 * 60),
+          })
+          .status(200)
+          .json({ user: user._id });
+      } else {
+        throw Error("Incorrect password!");
+      }
+    } else {
+      throw Error("Incorrect username!");
+    }
+  } catch (error) {
+    console.log(error.message);
   }
 };

@@ -47,7 +47,7 @@ const Login = () => {
     if (handleValidation()) {
       try {
         const { data } = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/users/register`,
+          `${process.env.REACT_APP_SERVER_URL}/users/login`,
           {
             username,
             password,
@@ -58,11 +58,15 @@ const Login = () => {
             },
           }
         );
-        if (data) {
-          navigate("/");
-        }
+        // if (data) {
+        //   navigate("/");
+        // }
       } catch (error) {
-        console.log(error.message);
+        if (error.message.endsWith("username!")) {
+          console.log(error.message);
+        } else if (error.message.endsWith("password!")) {
+          console.log(error.message);
+        }
       }
     }
   };
