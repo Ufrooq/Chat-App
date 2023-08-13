@@ -63,7 +63,25 @@ const Register = () => {
     e.preventDefault();
     const { username, email, password, confirmPassword } = userData;
     if (handleValidation()) {
-      const { data } = await axios.post();
+      try {
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/users/register`,
+          {
+            username,
+            email,
+            password,
+            confirmPassword,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(data);
+      } catch (error) {
+        console.log(error.message);
+      }
     }
   };
 
