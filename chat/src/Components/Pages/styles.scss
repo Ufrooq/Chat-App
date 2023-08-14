@@ -74,6 +74,27 @@ $smokey-color: rgba(255, 255, 255, 0.861);
 }
 
 .avatar-page {
+  .avatar-error {
+    position: absolute;
+    top: 0px;
+    transform: translateY(-100px);
+    transition: 0.3s ease-in-out;
+    background-color: rgba(255, 0, 0, 0.09);
+    border-radius: 30px;
+    color: red;
+    border: 1.5px solid red;
+    padding: 10px 20px;
+  }
+  .avatar-success {
+    @extend .avatar-error;
+    border: 1.5px solid greenyellow;
+    color: greenyellow;
+    background-color: rgba(172, 255, 47, 0.098);
+  }
+  .show {
+    transform: translateY(20px);
+  }
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
