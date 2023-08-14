@@ -56,17 +56,21 @@ const Login = () => {
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: "include",
+            withCredentials: true,
           }
         );
-        // if (data) {
-        //   navigate("/");
-        // }
-      } catch (error) {
-        if (error.message.endsWith("username!")) {
-          console.log(error.message);
-        } else if (error.message.endsWith("password!")) {
-          console.log(error.message);
+        if (data) {
+          navigate("/");
         }
+      } catch (error) {
+        const errorMessage = error.response.data.error;
+        setErrors({
+          ...errors,
+          ["username"]: errorMessage.endsWith("username!") ? errorMessage : "",
+          ["password"]: errorMessage.endsWith("password!") ? errorMessage : "",
+        });
+        console.log(errors.username);
       }
     }
   };

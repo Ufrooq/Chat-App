@@ -5,6 +5,7 @@ body {
   box-sizing: border-box;
   font-family: "Quicksand", sans-serif;
 }
+
 h1,
 ul,
 li,
@@ -13,6 +14,11 @@ button {
   margin: 0px;
   padding: 0px;
 }
-::selection {
+
+::-moz-selection {
   background-color: #da22ff;
 }
+
+::selection {
+  background-color: #da22ff;
+}/*# sourceMappingURL=index.css.map */
