@@ -40,7 +40,9 @@ const Chats = () => {
                 <img src={avatar} alt="avatar" />
                 <h2>UserName</h2>
               </div>
-              <button>Logout</button>
+              <button>
+                <i class="fa-solid fa-right-from-bracket"></i>
+              </button>
             </div>
             <div className="controls">
               <button>:)</button>
