@@ -87,9 +87,13 @@ export const setAvatar = async (req, res) => {
 
 export const getContacts = async (req, res) => {
   try {
-    const userId = req.userId;
-    console.log("userId " + userId);
+    const currentUser = req.userId;
+    const userContacts = await userModel
+      .find({ _id: { $ne: currentUser } })
+      .select(["username", "email", "avatarImage", "_id"]);
+    res.status(200).json(userContacts);
   } catch (error) {
+    res.status(404).json({ error: error.message });
     console.log(error.message);
   }
 };

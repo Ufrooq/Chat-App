@@ -1,5 +1,6 @@
 import React from "react";
 import loader from "../assets/duck.gif";
+import "./styles.scss";
 
 const Loader = () => {
   return (

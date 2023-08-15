@@ -151,21 +151,20 @@ $smokey-color: rgba(255, 255, 255, 0.861);
       padding: 10px 30px;
     }
   }
-
-  .loader {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    img {
-      width: 70%;
-    }
-    h2 {
-      color: $smokey-color;
-      letter-spacing: 2px;
-    }
-  }
 }
 
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img {
+    width: 70%;
+  }
+  h2 {
+    color: $smokey-color;
+    letter-spacing: 2px;
+  }
+}
 .chat-page {
   @extend .register-page;
 
