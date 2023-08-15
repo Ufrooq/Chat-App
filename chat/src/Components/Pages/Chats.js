@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import avatar from "../assets/avatar.png";
 
 const Chats = () => {
@@ -14,6 +14,19 @@ const Chats = () => {
     "Umar",
     "Bilal",
   ]);
+
+  const fetchContacts = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/`);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
   return (
     <>
       <div className="chat-page">

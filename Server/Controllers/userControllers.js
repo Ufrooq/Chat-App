@@ -84,3 +84,12 @@ export const setAvatar = async (req, res) => {
     res.status(400).json("Failed to set Avatar !");
   }
 };
+
+export const getContacts = async (req, res) => {
+  try {
+    const userId = req.userId;
+    console.log("userId " + userId);
+  } catch (error) {
+    console.log(error.message);
+  }
+};

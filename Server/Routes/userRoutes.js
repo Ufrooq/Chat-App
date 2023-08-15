@@ -11,5 +11,6 @@ const router = Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/avatar", validateUser, setAvatar);
+router.get("/", validateUser, setAvatar);
 
 export default router;
