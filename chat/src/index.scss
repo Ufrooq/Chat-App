@@ -6,13 +6,18 @@ body {
   font-family: "Quicksand", sans-serif;
 }
 h1,
-ul,
+h2,
+h3,
+h4,
+h5,
+h6 ul,
 li,
 p,
 button {
   margin: 0px;
   padding: 0px;
 }
+
 ::selection {
   background-color: #da22ff;
 }

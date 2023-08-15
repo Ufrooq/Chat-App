@@ -1,4 +1,5 @@
 $smokey-color: rgba(255, 255, 255, 0.861);
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap");
 
 @mixin custom-button() {
   background: #da22ff;
@@ -161,6 +162,89 @@ $smokey-color: rgba(255, 255, 255, 0.861);
     h2 {
       color: $smokey-color;
       letter-spacing: 2px;
+    }
+  }
+}
+
+.chat-page {
+  @extend .register-page;
+
+  .chat-container {
+    border-radius: 10px;
+    width: 90%;
+    min-height: 100px;
+    height: auto;
+    display: flex;
+    background-color: #21193b;
+    .chats-panel {
+      width: 27%;
+      color: white;
+
+      h1 {
+        text-align: center;
+        padding: 20px 0px;
+        background-color: #18122b;
+        border-radius: 10px 0px 0px 0px;
+      }
+      .chats {
+        padding: 20px;
+        background-color: #18122b;
+        max-height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 20px;
+        overflow: auto;
+
+        .chat {
+          position: relative;
+          z-index: 1;
+          padding: 13px 0px;
+          width: 100%;
+          background-color: #2a2049;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          border-radius: 10px;
+          transition: all 0.3s;
+          transform: scale(1);
+          img {
+            width: 3.3rem;
+          }
+
+          &:hover {
+            background-color: #403566;
+            cursor: pointer;
+            transform: scale(1.06);
+          }
+        }
+        &::-webkit-scrollbar {
+          width: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: rgb(76, 67, 107);
+          border-radius: 30px;
+        }
+      }
+      .admin-panel {
+        border-radius: 0px 0px 0px 10px;
+        background-color: #18122b;
+        position: relative;
+        display: flex;
+        z-index: 3;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 0px;
+        column-gap: 20px;
+        img {
+          width: 3.3rem;
+        }
+      }
+    }
+    .chat-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
     }
   }
 }
