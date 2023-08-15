@@ -89,47 +89,49 @@ const Register = () => {
   };
 
   return (
-    <div className="register" onSubmit={handleRegister}>
-      <form>
-        <div className="top-logo">
-          <h1>Register</h1>
-        </div>
-        <input
-          type="text"
-          placeholder="Username"
-          name="username"
-          onChange={handleChange}
-        />
-        <span>{errors.username}</span>
-        <input
-          type="email"
-          placeholder="email"
-          name="email"
-          onChange={handleChange}
-        />
-        <span>{errors.email}</span>
-        <input
-          type="Password"
-          placeholder="Password"
-          name="password"
-          onChange={handleChange}
-        />
-        <span>{errors.password}</span>
-        <input
-          type="Password"
-          placeholder="Confirm Password"
-          name="confirmPassword"
-          onChange={handleChange}
-        />
-        <span>{errors.confirmPassword}</span>
-        <button>Create User</button>
-        <p>
-          Already have an account ?{" "}
-          <Link to="/login">
-            <span>Login</span>
-          </Link>
-        </p>
-      </form>
+    <div className="register-page">
+      <div className="register" onSubmit={handleRegister}>
+        <form>
+          <div className="top-logo">
+            <h1>Register</h1>
+          </div>
+          <input
+            type="text"
+            placeholder="Username"
+            name="username"
+            onChange={handleChange}
+          />
+          <span>{errors.username}</span>
+          <input
+            type="email"
+            placeholder="email"
+            name="email"
+            onChange={handleChange}
+          />
+          <span>{errors.email}</span>
+          <input
+            type="Password"
+            placeholder="Password"
+            name="password"
+            onChange={handleChange}
+          />
+          <span>{errors.password}</span>
+          <input
+            type="Password"
+            placeholder="Confirm Password"
+            name="confirmPassword"
+            onChange={handleChange}
+          />
+          <span>{errors.confirmPassword}</span>
+          <button>Create User</button>
+          <p>
+            Already have an account ?{" "}
+            <Link to="/login">
+              <span>Login</span>
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

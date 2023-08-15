@@ -22,26 +22,6 @@ const Avatar = () => {
     }
     setavatars(data);
   }
-
-  let errorDiv = document.querySelector(".avatar-error");
-  const handleError = () => {
-    if (!isSelectedAvatar) {
-      errorDiv.textContent = "Please selected an avatar!";
-      errorDiv.classList.add("show");
-    } else {
-      errorDiv.classList.replace("avatar-error", "avatar-success");
-      errorDiv.textContent = "Avatar selected successfully!";
-      errorDiv.classList.add("show");
-    }
-    setTimeout(() => {
-      errorDiv.classList.remove("show");
-      if (isSelectedAvatar) {
-        errorDiv.classList.replace("avatar-success", "avatar-error");
-      }
-      setisSelectedAvatar(false);
-    }, 2000);
-  };
-
   const handleSetProfile = async () => {
     handleError();
     if (isSelectedAvatar) {
@@ -62,6 +42,8 @@ const Avatar = () => {
         if (response.ok) {
           console.log(data);
           navigate("/");
+        } else {
+          navigate("/login");
         }
       } catch (error) {
         console.log(error.message);
@@ -69,6 +51,24 @@ const Avatar = () => {
     }
   };
 
+  let errorDiv = document.querySelector(".avatar-error");
+  const handleError = () => {
+    if (!isSelectedAvatar) {
+      errorDiv.textContent = "Please selected an avatar!";
+      errorDiv.classList.add("show");
+    } else {
+      errorDiv.classList.replace("avatar-error", "avatar-success");
+      errorDiv.textContent = "Avatar select successfully!";
+      errorDiv.classList.add("show");
+    }
+    setTimeout(() => {
+      errorDiv.classList.remove("show");
+      if (isSelectedAvatar) {
+        errorDiv.classList.replace("avatar-success", "avatar-error");
+      }
+      setisSelectedAvatar(false);
+    }, 2000);
+  };
   const handleSelected = (index) => {
     setselectedAvatarIndex(index);
     setisSelectedAvatar(true);
@@ -89,6 +89,7 @@ const Avatar = () => {
               avatars.map((avatar, index) => (
                 <li key={index}>
                   <img
+                    className="avatar-image"
                     src={`data:image/svg+xml;base64,${avatar}`}
                     alt="avatar"
                     onClick={() => handleSelected(index)}

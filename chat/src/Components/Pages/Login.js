@@ -75,33 +75,35 @@ const Login = () => {
     }
   };
   return (
-    <div className="login">
-      <form onSubmit={handleLogin}>
-        <div className="top-logo">
-          <h1>Login</h1>
-        </div>
-        <input
-          type="text"
-          placeholder="Username"
-          name="username"
-          onChange={handleChange}
-        />
-        <span>{errors.username}</span>
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          onChange={handleChange}
-        />
-        <span>{errors.password}</span>
-        <button>Login User</button>
-        <p>
-          Do not have an account ?{" "}
-          <Link to="/register">
-            <span>Register</span>
-          </Link>
-        </p>
-      </form>
+    <div className="login-page">
+      <div className="login">
+        <form onSubmit={handleLogin}>
+          <div className="top-logo">
+            <h1>Login</h1>
+          </div>
+          <input
+            type="text"
+            placeholder="Username"
+            name="username"
+            onChange={handleChange}
+          />
+          <span>{errors.username}</span>
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            onChange={handleChange}
+          />
+          <span>{errors.password}</span>
+          <button>Login User</button>
+          <p>
+            Do not have an account ?{" "}
+            <Link to="/register">
+              <span>Register</span>
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
