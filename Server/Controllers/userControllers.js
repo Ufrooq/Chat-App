@@ -27,7 +27,7 @@ export const registerUser = async (req, res) => {
     delete newUser.password;
     const jwt_token = createToken(newUser._id);
     res
-      .cookie("token", jwt_token, {
+      .cookie("jwt", jwt_token, {
         httpOnly: true,
         secure: true,
         maxAge: new Date(Date.now() + 3 * 1000 * 24 * 60 * 60),
@@ -48,7 +48,7 @@ export const loginUser = async (req, res) => {
       if (isPasswordCorrect) {
         const jwt_token = createToken(user._id);
         res
-          .cookie("token", jwt_token, {
+          .cookie("jwt", jwt_token, {
             httpOnly: true,
             secure: true,
             maxAge: new Date(Date.now() + 3 * 1000 * 24 * 60 * 60),
@@ -63,5 +63,24 @@ export const loginUser = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+};
+
+export const setAvatar = async (req, res) => {
+  try {
+    const { avatar } = req.body;
+    const userId = req.userId;
+    await userModel.findByIdAndUpdate(
+      userId,
+      {
+        avatarImage: avatar,
+        isAvatarImage: true,
+      },
+      { new: true }
+    );
+    res.status(200).json("Avatar set successfully !");
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json("Failed to set Avatar !");
   }
 };

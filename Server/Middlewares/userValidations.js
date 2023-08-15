@@ -4,13 +4,13 @@ import dotenv from "dotenv";
 dotenv.config();
 export const validateUser = async (req, res, next) => {
   try {
-    let token = req.cookies.token;
+    let token = req.cookies.jwt;
     if (token) {
       jwt.verify(token, process.env.EXCESS_TOKEN, (err, decoded) => {
         if (err) {
           throw Error("Tokken is expired !!");
         }
-        req.user = decoded.id;
+        req.userId = decoded.id;
         next();
       });
     }

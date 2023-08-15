@@ -3,13 +3,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Buffer } from "buffer";
 import Loader from "./Loader";
-import Styled from "styled-components";
 
 const Avatar = () => {
   const navigate = useNavigate();
   const api_address = "https://api.multiavatar.com/";
   const [avatars, setavatars] = useState([]);
-  const [selectedAvatar, setselectedAvatar] = useState(null);
+  const [selectedAvatarIndex, setselectedAvatarIndex] = useState(null);
+  const [isSelectedAvatar, setisSelectedAvatar] = useState(false);
 
   async function fetchData() {
     const data = [];
@@ -23,25 +23,57 @@ const Avatar = () => {
     setavatars(data);
   }
 
+  let errorDiv = document.querySelector(".avatar-error");
   const handleError = () => {
-    let errorDiv = document.querySelector(".avatar-error");
-    if (!selectedAvatar) {
+    if (!isSelectedAvatar) {
       errorDiv.textContent = "Please selected an avatar!";
+      errorDiv.classList.add("show");
     } else {
       errorDiv.classList.replace("avatar-error", "avatar-success");
-      errorDiv = document.querySelector(".avatar-success");
       errorDiv.textContent = "Avatar selected successfully!";
+      errorDiv.classList.add("show");
     }
-    errorDiv.classList.add("show");
     setTimeout(() => {
       errorDiv.classList.remove("show");
+      if (isSelectedAvatar) {
+        errorDiv.classList.replace("avatar-success", "avatar-error");
+      }
+      setisSelectedAvatar(false);
     }, 2000);
-    setselectedAvatar(null);
   };
 
-  const handleSetProfile = () => {
+  const handleSetProfile = async () => {
     handleError();
+    if (isSelectedAvatar) {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/users/avatar`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ avatar: avatars[selectedAvatarIndex] }),
+          }
+        );
+
+        const data = await response.json();
+        if (response.ok) {
+          console.log(data);
+          navigate("/");
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
   };
+
+  const handleSelected = (index) => {
+    setselectedAvatarIndex(index);
+    setisSelectedAvatar(true);
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -59,7 +91,7 @@ const Avatar = () => {
                   <img
                     src={`data:image/svg+xml;base64,${avatar}`}
                     alt="avatar"
-                    onClick={() => setselectedAvatar(index)}
+                    onClick={() => handleSelected(index)}
                   />
                 </li>
               ))}
