@@ -170,21 +170,20 @@ $smokey-color: rgba(255, 255, 255, 0.861);
   @extend .register-page;
 
   .chat-container {
-    border-radius: 10px;
-    width: 90%;
+    border-radius: 20px;
+    width: 95%;
     min-height: 100px;
     height: auto;
     display: flex;
     background-color: #21193b;
     .chats-panel {
-      width: 27%;
+      width: 30%;
       color: white;
-
       h1 {
         text-align: center;
         padding: 20px 0px;
         background-color: #18122b;
-        border-radius: 10px 0px 0px 0px;
+        border-radius: 20px 0px 0px 0px;
       }
       .chats {
         padding: 20px;
@@ -227,7 +226,7 @@ $smokey-color: rgba(255, 255, 255, 0.861);
         }
       }
       .admin-panel {
-        border-radius: 0px 0px 0px 10px;
+        border-radius: 0px 0px 0px 20px;
         background-color: #18122b;
         position: relative;
         display: flex;
@@ -248,8 +247,8 @@ $smokey-color: rgba(255, 255, 255, 0.861);
       flex-direction: column;
       justify-content: space-between;
       .chat-head {
-        background-color: rgb(70, 59, 108);
-        padding: 20px;
+        background-color: #18122b;
+        padding: 15px 20px;
         border-radius: 0px 10px 0px 0px;
         display: flex;
         justify-content: space-between;
@@ -259,17 +258,15 @@ $smokey-color: rgba(255, 255, 255, 0.861);
           align-items: center;
           column-gap: 20px;
           img {
-            width: 3.8rem;
+            width: 3.6rem;
           }
         }
-
         button {
           background-color: transparent;
           border: none;
           outline: none;
           cursor: pointer;
           padding: 0px 15px;
-
           i {
             color: white;
             font-size: 1.7rem;
@@ -277,7 +274,33 @@ $smokey-color: rgba(255, 255, 255, 0.861);
         }
       }
       .controls {
-        padding: 20px;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        input {
+          background-color: transparent;
+          padding: 10px 25px;
+          width: 80%;
+          font-family: "Quicksand", sans-serif;
+          font-size: 1.3rem;
+          border-radius: 30px;
+          border: 1.5px solid rgb(89, 76, 130);
+          outline: none;
+          color: white;
+        }
+        button {
+          background-color: transparent;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          padding: 0px 10px;
+          i {
+            color: white;
+            font-size: 1.7rem;
+          }
+        }
       }
     }
   }

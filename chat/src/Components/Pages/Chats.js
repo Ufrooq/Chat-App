@@ -45,8 +45,13 @@ const Chats = () => {
               </button>
             </div>
             <div className="controls">
-              <button>:)</button>
+              <button>
+                <i class="fa-solid fa-icons"></i>
+              </button>
               <input type="text" placeholder="Message" />
+              <button>
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
             </div>
           </div>
         </div>
