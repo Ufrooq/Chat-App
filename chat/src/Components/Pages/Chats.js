@@ -6,19 +6,8 @@ import "./styles.scss";
 
 const Chats = () => {
   const navigate = useNavigate();
-  const [chats, setfirst] = useState([
-    "Sam",
-    "Cam",
-    "Raven",
-    "Jeena",
-    "Waran",
-    "Rock",
-    "Screw",
-    "Balack",
-    "Umar",
-    "Bilal",
-  ]);
   const [contacts, setContacts] = useState([]);
+  const [currentuser, setcurrentUser] = useState([]);
   const fetchContacts = async () => {
     try {
       const response = await fetch(
@@ -28,11 +17,14 @@ const Chats = () => {
           credentials: "include",
         }
       );
+      const { userContacts, currentUser } = await response.json();
       if (!response.ok) {
         navigate("/login");
+      } else if (currentUser[0].avatarImage == "") {
+        navigate("/avatar");
       } else {
-        const data = await response.json();
-        setContacts(data);
+        setcurrentUser(currentUser);
+        setContacts(userContacts);
       }
     } catch (error) {
       console.log(error.message);
@@ -53,17 +45,20 @@ const Chats = () => {
             <div className="chats-panel">
               <h1>Duckchats</h1>
               <div className="chats">
-                {chats.map((chat, index) => (
+                {contacts.map((chat, index) => (
                   <div className="chat" key={index}>
-                    <img src={avatar} alt="avatar" />
-                    <h3>{chat}</h3>
+                    <img
+                      src={chat.avatarImage ? chat.avatarImage : avatar}
+                      alt="avatar"
+                    />
+                    <h3>{chat.username}</h3>
                     <p>7:34 PM</p>
                   </div>
                 ))}
               </div>
               <div className="admin-panel">
                 <img src={avatar} alt="avatar" />
-                <h2>ADMIN</h2>
+                <h2>{currentuser[0].username}</h2>
               </div>
             </div>
             <div className="chat-box">
