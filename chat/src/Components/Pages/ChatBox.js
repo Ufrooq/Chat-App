@@ -1,17 +1,24 @@
 import React from "react";
-import avatar from "../assets/avatar.png";
+import avatar from "../assets/no-user-no-back.png";
 import roboGif from "../assets/robot.gif";
 import "./styles.scss";
-const ChatBox = () => {
+const ChatBox = (props) => {
+  const { currentChat } = props;
+  const { username, email, avatarImage } = currentChat;
   return (
     <div className="chat-box">
       <div className="chat-head">
         <div className="user-details">
-          <img src={avatar} alt="avatar" />
-          <h2>UserName</h2>
+          <img
+            src={
+              avatarImage ? `data:image/svg+xml;base64,${avatarImage}` : avatar
+            }
+            alt="avatar"
+          />
+          <h2>{username ? username : "No User"}</h2>
         </div>
         <button>
-          <i className="fa-solid fa-right-from-bracket"></i>
+          <i className="fa-solid fa-right-to-bracket fa-rotate-180"></i>
         </button>
       </div>
       <div className="conversation-box">

@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
-import avatar from "../assets/avatar.png";
+import React, { useContext, useEffect, useState } from "react";
+import avatar from "../assets/no-user-no-back.png";
 import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
-import "./styles.scss";
 import ChatBox from "./ChatBox";
+import { globalcontext } from "../../App";
+import "./styles.scss";
 
 const Chats = () => {
   const navigate = useNavigate();
+  const { isLoggedIn, setisLoggedIn } = useContext(globalcontext);
   const [contacts, setContacts] = useState([]);
+  const [currentChat, setcurrentChat] = useState();
   const [currentuser, setcurrentUser] = useState([]);
   const fetchContacts = async () => {
     try {
@@ -21,9 +24,12 @@ const Chats = () => {
       const { userContacts, currentUser } = await response.json();
       if (!response.ok) {
         navigate("/login");
+        setisLoggedIn(false);
       } else if (currentUser[0].avatarImage == "") {
         navigate("/avatar");
+        setisLoggedIn(false);
       } else {
+        setisLoggedIn(true);
         setcurrentUser(currentUser);
         setContacts(userContacts);
       }
@@ -47,7 +53,11 @@ const Chats = () => {
               <h1>Duckchats</h1>
               <div className="chats">
                 {contacts.map((chat, index) => (
-                  <div className="chat" key={index}>
+                  <div
+                    className="chat"
+                    key={index}
+                    onClick={() => setcurrentChat(chat)}
+                  >
                     <img
                       src={
                         chat.avatarImage
@@ -73,7 +83,7 @@ const Chats = () => {
                 <h2>{currentuser[0].username}</h2>
               </div>
             </div>
-            <ChatBox />
+            <ChatBox currentChat={currentChat} />
           </div>
         ) : (
           <Loader />
