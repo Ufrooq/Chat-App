@@ -200,7 +200,7 @@ $smokey-color: rgba(255, 255, 255, 0.861);
         .chat {
           position: relative;
           z-index: 1;
-          padding: 13px 10px;
+          padding: 10px 10px;
           width: 90%;
           background-color: #2a2049;
           display: flex;
@@ -285,7 +285,9 @@ $smokey-color: rgba(255, 255, 255, 0.861);
           flex-direction: column;
           justify-content: center;
           align-items: center;
-
+          span {
+            color: #9733ee;
+          }
           img {
             width: 15rem;
           }
@@ -307,6 +309,11 @@ $smokey-color: rgba(255, 255, 255, 0.861);
           border: 1.5px solid rgb(89, 76, 130);
           outline: none;
           color: white;
+          transition: 0.2s all;
+
+          &:focus {
+            border: 1.5px solid rgb(130, 118, 170);
+          }
         }
         button {
           background-color: transparent;

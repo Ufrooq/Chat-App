@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import avatar from "../assets/no-user-no-back.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import ChatBox from "./ChatBox";
 import { globalcontext } from "../../App";
@@ -10,7 +10,7 @@ const Chats = () => {
   const navigate = useNavigate();
   const { isLoggedIn, setisLoggedIn } = useContext(globalcontext);
   const [contacts, setContacts] = useState([]);
-  const [currentChat, setcurrentChat] = useState();
+  const [currentChat, setcurrentChat] = useState(null);
   const [currentuser, setcurrentUser] = useState([]);
   const fetchContacts = async () => {
     try {
@@ -50,7 +50,11 @@ const Chats = () => {
         {contacts.length > 0 ? (
           <div className="chat-container">
             <div className="chats-panel">
-              <h1>Duckchats</h1>
+              <h1>
+                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                  DuckChats
+                </Link>
+              </h1>
               <div className="chats">
                 {contacts.map((chat, index) => (
                   <div

@@ -9,9 +9,19 @@ import "./App.scss";
 export const globalcontext = createContext();
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
+
+  function mouseFollower() {
+    document.addEventListener("mousemove", (mouseDetails) => {
+      document.getElementById(
+        "mini-circle"
+      ).style.transform = `translate(${mouseDetails.clientX}px,${mouseDetails.clientY}px)`;
+    });
+  }
+  mouseFollower();
   return (
     <globalcontext.Provider value={{ isLoggedIn, setisLoggedIn }}>
       <div className="App">
+        <div id="mini-circle"></div>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Chats />} />
