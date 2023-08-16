@@ -3,6 +3,7 @@ import avatar from "../assets/avatar.png";
 import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import "./styles.scss";
+import ChatBox from "./ChatBox";
 
 const Chats = () => {
   const navigate = useNavigate();
@@ -48,7 +49,11 @@ const Chats = () => {
                 {contacts.map((chat, index) => (
                   <div className="chat" key={index}>
                     <img
-                      src={chat.avatarImage ? chat.avatarImage : avatar}
+                      src={
+                        chat.avatarImage
+                          ? `data:image/svg+xml;base64,${chat.avatarImage}`
+                          : avatar
+                      }
                       alt="avatar"
                     />
                     <h3>{chat.username}</h3>
@@ -57,30 +62,18 @@ const Chats = () => {
                 ))}
               </div>
               <div className="admin-panel">
-                <img src={avatar} alt="avatar" />
+                <img
+                  src={
+                    currentuser[0].avatarImage
+                      ? `data:image/svg+xml;base64,${currentuser[0].avatarImage}`
+                      : avatar
+                  }
+                  alt="avatar"
+                />
                 <h2>{currentuser[0].username}</h2>
               </div>
             </div>
-            <div className="chat-box">
-              <div className="chat-head">
-                <div className="user-details">
-                  <img src={avatar} alt="avatar" />
-                  <h2>UserName</h2>
-                </div>
-                <button>
-                  <i className="fa-solid fa-right-from-bracket"></i>
-                </button>
-              </div>
-              <div className="controls">
-                <button>
-                  <i className="fa-solid fa-icons"></i>
-                </button>
-                <input type="text" placeholder="Message" />
-                <button>
-                  <i className="fa-solid fa-paper-plane"></i>
-                </button>
-              </div>
-            </div>
+            <ChatBox />
           </div>
         ) : (
           <Loader />

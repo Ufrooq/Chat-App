@@ -171,7 +171,7 @@ $smokey-color: rgba(255, 255, 255, 0.861);
   .chat-container {
     border-radius: 20px;
     width: 95%;
-    min-height: 100px;
+    min-height: 300px;
     height: auto;
     display: flex;
     background-color: #21193b;
@@ -269,6 +269,22 @@ $smokey-color: rgba(255, 255, 255, 0.861);
           i {
             color: white;
             font-size: 1.7rem;
+          }
+        }
+      }
+      .conversation-box {
+        width: 100%;
+        height: 100%;
+        .welcome {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          img {
+            width: 15rem;
           }
         }
       }
