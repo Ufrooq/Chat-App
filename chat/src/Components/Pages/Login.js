@@ -98,7 +98,10 @@ const Login = () => {
           <button>Login User</button>
           <p>
             Do not have an account ?{" "}
-            <Link to="/register">
+            <Link
+              to="/register"
+              style={{ textDecoration: "none", color: "white" }}
+            >
               <span>Register</span>
             </Link>
           </p>

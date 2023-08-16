@@ -1,9 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import avatar from "../assets/no-user-no-back.png";
 import roboGif from "../assets/robot.gif";
 import "./styles.scss";
+import { useNavigate } from "react-router-dom";
+import { globalcontext } from "../../App";
 const ChatBox = (props) => {
-  const { currentChat } = props;
+  const { isLoggedIn, setisLoggedIn } = useContext(globalcontext);
+  const { currentChat, currentuser } = props;
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/logout`,
+        {
+          method: "get",
+          credentials: "include",
+        }
+      );
+      if (response.ok) {
+        setisLoggedIn(false);
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="chat-box">
       <div className="chat-head">
@@ -18,7 +40,7 @@ const ChatBox = (props) => {
           />
           <h2>{currentChat?.username ? currentChat.username : "No User"}</h2>
         </div>
-        <button>
+        <button onClick={handleLogout}>
           <i className="fa-solid fa-right-to-bracket fa-rotate-180"></i>
         </button>
       </div>

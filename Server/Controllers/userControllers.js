@@ -100,3 +100,7 @@ export const getContacts = async (req, res) => {
     console.log(error.message);
   }
 };
+
+export const logoutUser = (req, res) => {
+  res.status(200).cookie("jwt", "", { maxAge: 1 }).send();
+};

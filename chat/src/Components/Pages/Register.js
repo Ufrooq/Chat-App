@@ -126,7 +126,10 @@ const Register = () => {
           <button>Create User</button>
           <p>
             Already have an account ?{" "}
-            <Link to="/login">
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "white" }}
+            >
               <span>Login</span>
             </Link>
           </p>

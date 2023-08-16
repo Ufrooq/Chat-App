@@ -87,7 +87,7 @@ const Chats = () => {
                 <h2>{currentuser[0].username}</h2>
               </div>
             </div>
-            <ChatBox currentChat={currentChat} />
+            <ChatBox currentChat={currentChat} currentuser={currentuser} />
           </div>
         ) : (
           <Loader />
