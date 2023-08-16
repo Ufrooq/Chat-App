@@ -293,6 +293,13 @@ $smokey-color: rgba(255, 255, 255, 0.861);
           }
         }
       }
+
+      .emojiPicker {
+        position: absolute;
+        top: 35%;
+        z-index: 3;
+      }
+
       .controls {
         padding: 15px 20px;
         display: flex;

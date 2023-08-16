@@ -9,12 +9,11 @@ import "./App.scss";
 export const globalcontext = createContext();
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
-
   function mouseFollower() {
     document.addEventListener("mousemove", (mouseDetails) => {
-      document.getElementById(
-        "mini-circle"
-      ).style.transform = `translate(${mouseDetails.clientX}px,${mouseDetails.clientY}px)`;
+      document.getElementById("mini-circle").style.transform = `translate(${
+        mouseDetails.clientX - 10
+      }px,${mouseDetails.clientY - 10}px)`;
     });
   }
   mouseFollower();
