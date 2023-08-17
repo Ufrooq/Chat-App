@@ -39,15 +39,29 @@ const ChatBox = (props) => {
 
   const handleSendChat = async (e) => {
     e.preventDefault();
-    const from = currentuser[0]._id;
-    const to = currentChat._id;
-    const msg = val;
     try {
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/messages/addmsg`,
+        {
+          method: "POST",
+          credentials: "include",
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: currentuser[0]._id,
+            to: currentChat._id,
+            msg: val,
+          }),
+        }
+      );
+      if (response.ok) {
+        setval("");
+      }
     } catch (error) {
       console.log(error.message);
     }
-
-    setval("");
   };
   return (
     <div className="chat-box">
