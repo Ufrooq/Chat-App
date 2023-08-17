@@ -12,6 +12,7 @@ const Chats = () => {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setcurrentChat] = useState(null);
   const [currentuser, setcurrentUser] = useState([]);
+  const [messagesArray, setmessagesArray] = useState([]);
   const fetchContacts = async () => {
     try {
       const response = await fetch(
@@ -38,6 +39,21 @@ const Chats = () => {
     }
   };
 
+  const fetchMessages = async () => {
+    try {
+    } catch (error) {
+      console.log(error.message);
+    }
+    // currentChat;
+    // currentuser;
+  };
+
+  //useEffect for fetching chats -->
+  useEffect(() => {
+    fetchMessages();
+  }, [currentChat]);
+
+  //general useEffect -->
   useEffect(() => {
     setTimeout(() => {
       fetchContacts();
@@ -60,7 +76,10 @@ const Chats = () => {
                   <div
                     className="chat"
                     key={index}
-                    onClick={() => setcurrentChat(chat)}
+                    onClick={() => {
+                      setcurrentChat(chat);
+                      fetchMessages();
+                    }}
                   >
                     <img
                       src={
