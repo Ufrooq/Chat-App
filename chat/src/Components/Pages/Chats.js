@@ -5,6 +5,7 @@ import Loader from "./Loader";
 import ChatBox from "./ChatBox";
 import { globalcontext } from "../../App";
 import "./styles.scss";
+import io from "socket.io-client";
 
 const Chats = () => {
   const navigate = useNavigate();
@@ -13,6 +14,9 @@ const Chats = () => {
   const [currentChat, setcurrentChat] = useState(null);
   const [currentuser, setcurrentUser] = useState([]);
   const [messagesArray, setmessagesArray] = useState([]);
+  const [isUserOnline, setisUserOnline] = useState(false);
+  let socket;
+
   const fetchContacts = async () => {
     try {
       const response = await fetch(
@@ -56,12 +60,27 @@ const Chats = () => {
           }),
         }
       );
-      const data = await response.json();
-      setmessagesArray(data);
+      if (response.ok) {
+        const data = await response.json();
+        setmessagesArray(data);
+        socket.emit("join chat", currentChat?._id);
+      }
     } catch (error) {
       console.log(error.message);
     }
   };
+
+  // useEffect for socket.io connection -->
+
+  useEffect(() => {
+    socket = io(process.env.REACT_APP_SERVER_URL);
+    if (currentuser[0]) {
+      socket.emit("setup", currentuser[0]?._id);
+    }
+    socket.on("connection", () => {
+      setisUserOnline(true);
+    });
+  }, [currentuser]);
 
   //useEffect for fetching chats -->
   useEffect(() => {
@@ -127,6 +146,7 @@ const Chats = () => {
               currentChat={currentChat}
               currentuser={currentuser}
               messagesArray={messagesArray}
+              isUserOnline={isUserOnline}
             />
           </div>
         ) : (

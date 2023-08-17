@@ -90,7 +90,14 @@ export const getContacts = async (req, res) => {
     const currentUserID = req.userId;
     const currentUser = await userModel
       .find({ _id: currentUserID })
-      .select(["username", "email", "avatarImage", "_id"]);
+      .select([
+        "username",
+        "email",
+        "avatarImage",
+        "_id",
+        "isOnline",
+        "lastOnline",
+      ]);
     const userContacts = await userModel
       .find({ _id: { $ne: currentUserID } })
       .select(["username", "email", "avatarImage", "_id"]);

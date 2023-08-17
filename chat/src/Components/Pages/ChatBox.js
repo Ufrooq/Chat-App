@@ -1,17 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { globalcontext } from "../../App";
 import avatar from "../assets/no-user-no-back.png";
 import roboGif from "../assets/robot.gif";
 import Picker from "emoji-picker-react";
 import "./styles.scss";
-const ChatBox = (props) => {
+const ChatBox = ({ currentChat, currentuser, messagesArray, isUserOnline }) => {
   const navigate = useNavigate();
   const { isLoggedIn, setisLoggedIn } = useContext(globalcontext);
-  const { currentChat, currentuser } = props;
   const [showEmojiPicker, setshowEmojiPicker] = useState(false);
   const [val, setval] = useState("");
-  const messages = props.messagesArray;
   const handleLogout = async () => {
     try {
       const response = await fetch(
@@ -58,6 +56,7 @@ const ChatBox = (props) => {
       );
       if (response.ok) {
         setval("");
+        setshowEmojiPicker(false);
       }
     } catch (error) {
       console.log(error.message);
@@ -92,8 +91,8 @@ const ChatBox = (props) => {
           </div>
         ) : (
           <div className="messages">
-            {messages.length > 0 &&
-              messages.map((msg, index) => (
+            {messagesArray.length > 0 &&
+              messagesArray.map((msg, index) => (
                 <div
                   className={
                     msg?.fromSelf ? "message-myself" : "message-otherSelf"
