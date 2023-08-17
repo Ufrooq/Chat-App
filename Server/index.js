@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { connection } from "./dB_Connection/connection.js";
 import userRoutes from "./Routes/userRoutes.js";
+import messageRoutes from "./Routes/messageRoutes.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(cors(corsOptions));
 
 //routesx`
 app.use("/users", userRoutes);
+app.use("/messages", messageRoutes);
 
 //db conenction
 connection();

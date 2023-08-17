@@ -16,11 +16,11 @@ function App() {
       }px,${mouseDetails.clientY - 10}px)`;
     });
   }
-  mouseFollower();
+  // mouseFollower();
   return (
     <globalcontext.Provider value={{ isLoggedIn, setisLoggedIn }}>
       <div className="App">
-        <div id="mini-circle"></div>
+        {/* <div id="mini-circle"></div> */}
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Chats />} />

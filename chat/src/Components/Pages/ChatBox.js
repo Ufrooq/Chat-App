@@ -12,10 +12,6 @@ const ChatBox = (props) => {
   const [showEmojiPicker, setshowEmojiPicker] = useState(false);
   const [val, setval] = useState("");
 
-  const handleShowHideEmojiPeaker = () => {
-    setshowEmojiPicker(!showEmojiPicker);
-  };
-
   const handleLogout = async () => {
     try {
       const response = await fetch(
@@ -34,13 +30,23 @@ const ChatBox = (props) => {
     }
   };
 
+  const handleShowHideEmojiPeaker = () => {
+    setshowEmojiPicker(!showEmojiPicker);
+  };
   const handleEmoji = (emoji, event) => {
-    console.log(emoji);
     setval(val + emoji.emoji);
   };
 
-  const handleSendChat = () => {
-    console.log(val);
+  const handleSendChat = async (e) => {
+    e.preventDefault();
+    const from = currentuser[0]._id;
+    const to = currentChat._id;
+    const msg = val;
+    try {
+    } catch (error) {
+      console.log(error.message);
+    }
+
     setval("");
   };
   return (
@@ -81,15 +87,17 @@ const ChatBox = (props) => {
         <button onClick={handleShowHideEmojiPeaker}>
           <i className="fa-solid fa-icons"></i>
         </button>
-        <input
-          type="text"
-          placeholder="Message"
-          value={val}
-          onChange={(e) => setval(e.target.value)}
-        />
-        <button onClick={handleSendChat}>
-          <i className="fa-solid fa-paper-plane"></i>
-        </button>
+        <form onSubmit={handleSendChat}>
+          <input
+            type="text"
+            placeholder="Message"
+            value={val}
+            onChange={(e) => setval(e.target.value)}
+          />
+          <button>
+            <i className="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
       </div>
     </div>
   );

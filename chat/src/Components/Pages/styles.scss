@@ -302,10 +302,13 @@ $smokey-color: rgba(255, 255, 255, 0.861);
 
       .controls {
         padding: 15px 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: white;
+        display: grid;
+        grid-template-columns: 10% 90%;
+
+        form {
+          display: flex;
+          justify-content: space-around;
+        }
         input {
           background-color: transparent;
           padding: 10px 25px;

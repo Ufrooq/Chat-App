@@ -65,21 +65,23 @@ const Register = () => {
     const { username, email, password, confirmPassword } = userData;
     if (handleValidation()) {
       try {
-        const { data } = await axios.post(
+        const response = await fetch(
           `${process.env.REACT_APP_SERVER_URL}/users/register`,
           {
-            username,
-            email,
-            password,
-            confirmPassword,
-          },
-          {
+            method: "POST",
+            credentials: "include",
             headers: {
               "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+              username,
+              email,
+              password,
+              confirmPassword,
+            }),
           }
         );
-        if (data) {
+        if (response.ok) {
           navigate("/");
         }
       } catch (error) {
