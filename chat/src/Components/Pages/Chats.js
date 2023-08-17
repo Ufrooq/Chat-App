@@ -39,18 +39,35 @@ const Chats = () => {
     }
   };
 
-  const fetchMessages = async () => {
+  const fetchMessages = async (currentuser, currentChat) => {
     try {
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/messages/getmsgs`,
+        {
+          method: "POST",
+          credentials: "include",
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: currentuser[0]?._id,
+            to: currentChat?._id,
+          }),
+        }
+      );
+      const data = await response.json();
+      setmessagesArray(data);
     } catch (error) {
       console.log(error.message);
     }
-    // currentChat;
-    // currentuser;
   };
 
   //useEffect for fetching chats -->
   useEffect(() => {
-    fetchMessages();
+    if (currentChat) {
+      fetchMessages(currentuser, currentChat);
+    }
   }, [currentChat]);
 
   //general useEffect -->
@@ -106,7 +123,11 @@ const Chats = () => {
                 <h2>{currentuser[0].username}</h2>
               </div>
             </div>
-            <ChatBox currentChat={currentChat} currentuser={currentuser} />
+            <ChatBox
+              currentChat={currentChat}
+              currentuser={currentuser}
+              messagesArray={messagesArray}
+            />
           </div>
         ) : (
           <Loader />

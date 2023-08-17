@@ -11,7 +11,7 @@ const ChatBox = (props) => {
   const { currentChat, currentuser } = props;
   const [showEmojiPicker, setshowEmojiPicker] = useState(false);
   const [val, setval] = useState("");
-
+  const messages = props.messagesArray;
   const handleLogout = async () => {
     try {
       const response = await fetch(
@@ -82,13 +82,27 @@ const ChatBox = (props) => {
         </button>
       </div>
       <div className="conversation-box">
-        {!currentChat && (
+        {!currentChat ? (
           <div className="welcome">
             <img src={roboGif} alt="" />
             <h1>
               Welcome <span>Admin !</span>
             </h1>
             <p>Select any contact to start chatting !</p>
+          </div>
+        ) : (
+          <div className="messages">
+            {messages.length > 0 &&
+              messages.map((msg, index) => (
+                <div
+                  className={
+                    msg?.fromSelf ? "message-myself" : "message-otherSelf"
+                  }
+                  key={index}
+                >
+                  <p>{msg.message}</p>
+                </div>
+              ))}
           </div>
         )}
       </div>

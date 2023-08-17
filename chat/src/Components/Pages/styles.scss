@@ -292,6 +292,30 @@ $smokey-color: rgba(255, 255, 255, 0.861);
             width: 15rem;
           }
         }
+        .messages {
+          @extend .welcome;
+          justify-content: start;
+          overflow: auto;
+          &::-webkit-scrollbar {
+            width: 10px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background-color: rgb(76, 67, 107);
+            border-radius: 30px;
+          }
+          .message-myself {
+            align-self: flex-end;
+            box-shadow: #3d335d 0px 3px 8px;
+            margin: 0.7rem 2.3rem;
+            padding: 11px 15px;
+            background-color: #18122b;
+            border-radius: 7px;
+          }
+          .message-otherSelf {
+            @extend .message-myself;
+            align-self: flex-start;
+          }
+        }
       }
 
       .emojiPicker {
