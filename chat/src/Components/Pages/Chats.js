@@ -37,7 +37,6 @@ const Chats = () => {
         setisLoggedIn(true);
         setcurrentUser(currentUser);
         setContacts(userContacts);
-        console.log(userContacts);
       }
     } catch (error) {
       console.log(error.message);
@@ -71,11 +70,28 @@ const Chats = () => {
   };
 
   // getting message from chat box -->
-
   const handleSendMessageToChats = (dataFromChatBox) => {
-    console.log(dataFromChatBox);
     setmsg(dataFromChatBox);
+    if (currentChat) {
+      socket.emit("send new message", {
+        roomId: currentChat._id,
+        message: dataFromChatBox,
+      });
+    }
   };
+
+  // useEffect for reciving messages from socketServer to display-->
+  useEffect(() => {
+    socket.on("display message on frontend", ({ roomId, message }) => {
+      console.log(message);
+      if (roomId === currentChat?._id) {
+        setmessagesArray((preMessages) => [
+          ...preMessages,
+          { message: message, fromSelf: true },
+        ]);
+      }
+    });
+  });
 
   // useEffect for socket.io connection -->
   useEffect(() => {

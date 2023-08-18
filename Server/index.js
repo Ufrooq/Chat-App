@@ -52,5 +52,10 @@ io.on("connection", (socket) => {
   });
 
   // user sending a message -->
-  socket.on("new message", (newRecievedMessage) => {});
+  socket.on("send new message", ({ roomId, message }) => {
+    io.to(roomId).emit("display message on frontend", {
+      roomId: roomId,
+      message: message,
+    });
+  });
 });

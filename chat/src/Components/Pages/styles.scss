@@ -281,6 +281,7 @@ $smokey-color: rgba(255, 255, 255, 0.861);
         .welcome {
           width: 100%;
           height: 100%;
+          max-height: 450px;
           display: flex;
           flex-direction: column;
           justify-content: center;
