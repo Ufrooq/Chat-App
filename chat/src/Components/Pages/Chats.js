@@ -15,7 +15,6 @@ const Chats = () => {
   const [currentuser, setcurrentUser] = useState([]);
   const [messagesArray, setmessagesArray] = useState([]);
   const [isUserOnline, setisUserOnline] = useState(false);
-  const [msg, setmsg] = useState("");
   const socket = io(process.env.REACT_APP_SERVER_URL);
   const fetchContacts = async () => {
     try {
@@ -34,6 +33,7 @@ const Chats = () => {
         navigate("/avatar");
         setisLoggedIn(false);
       } else {
+        console.log(userContacts);
         setisLoggedIn(true);
         setcurrentUser(currentUser);
         setContacts(userContacts);
@@ -71,7 +71,6 @@ const Chats = () => {
 
   // getting message from chat box -->
   const handleSendMessageToChats = (dataFromChatBox) => {
-    setmsg(dataFromChatBox);
     if (currentChat) {
       socket.emit("send new message", {
         roomId: currentChat._id,
@@ -84,10 +83,12 @@ const Chats = () => {
   useEffect(() => {
     socket.on("display message on frontend", ({ roomId, message }) => {
       if (roomId === currentChat?._id) {
-        const newMessArray = [...messagesArray];
-        newMessArray.push({ fromSelf: true, message: message });
-        setmessagesArray(newMessArray);
+        setmessagesArray((prevMessagesArray) => [
+          ...prevMessagesArray,
+          { fromSelf: true, message: message },
+        ]);
       }
+      console.log(messagesArray);
     });
     return () => {
       socket.off("display message on frontend", handleSendMessageToChats);

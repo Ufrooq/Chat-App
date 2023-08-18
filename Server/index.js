@@ -48,11 +48,12 @@ io.on("connection", (socket) => {
   // user joining particular chat -->
   socket.on("join chat", (roomId) => {
     socket.join(roomId);
-    console.log("user joined" + roomId);
+    console.log("user joined " + roomId + " room");
   });
 
   // user sending a message -->
   socket.on("send new message", ({ roomId, message }) => {
+    console.log(roomId, message);
     io.to(roomId).emit("display message on frontend", {
       roomId: roomId,
       message: message,

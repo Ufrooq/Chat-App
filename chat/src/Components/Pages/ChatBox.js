@@ -65,6 +65,7 @@ const ChatBox = ({
         setval("");
         setshowEmojiPicker(false);
         handleSendMessageToChats(val);
+        scollToEndRef.current?.scrollIntoView();
       }
     } catch (error) {
       console.log(error.message);
@@ -105,18 +106,18 @@ const ChatBox = ({
           </div>
         ) : (
           <div className="messages">
-            {messagesArray.map((msg, index) => (
-              <div
-                ref={scollToEndRef}
-                className={
-                  msg?.fromSelf ? "message-myself" : "message-otherSelf"
-                }
-                key={index}
-              >
-                <p>{msg.message}</p>
-              </div>
-            ))}
-            {/* <div ref={scollToEndRef} /> */}
+            {messagesArray &&
+              messagesArray.map((msg, index) => (
+                <div
+                  className={
+                    msg?.fromSelf ? "message-myself" : "message-otherSelf"
+                  }
+                  key={index}
+                >
+                  <p>{msg.message}</p>
+                </div>
+              ))}
+            <div ref={scollToEndRef} />
           </div>
         )}
       </div>
