@@ -83,14 +83,15 @@ const Chats = () => {
   // useEffect for reciving messages from socketServer to display-->
   useEffect(() => {
     socket.on("display message on frontend", ({ roomId, message }) => {
-      console.log(message);
       if (roomId === currentChat?._id) {
-        setmessagesArray((preMessages) => [
-          ...preMessages,
-          { message: message, fromSelf: true },
-        ]);
+        const newMessArray = [...messagesArray];
+        newMessArray.push({ fromSelf: true, message: message });
+        setmessagesArray(newMessArray);
       }
     });
+    return () => {
+      socket.off("display message on frontend", handleSendMessageToChats);
+    };
   });
 
   // useEffect for socket.io connection -->

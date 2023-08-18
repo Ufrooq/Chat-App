@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { globalcontext } from "../../App";
 import avatar from "../assets/no-user-no-back.png";
@@ -16,6 +16,7 @@ const ChatBox = ({
   const { isLoggedIn, setisLoggedIn } = useContext(globalcontext);
   const [showEmojiPicker, setshowEmojiPicker] = useState(false);
   const [val, setval] = useState("");
+  const scollToEndRef = useRef(null);
   const handleLogout = async () => {
     try {
       const response = await fetch(
@@ -69,6 +70,12 @@ const ChatBox = ({
       console.log(error.message);
     }
   };
+
+  // useEffect for onscroll -->
+  useEffect(() => {
+    scollToEndRef.current?.scrollIntoView();
+  });
+
   return (
     <div className="chat-box">
       <div className="chat-head">
@@ -98,17 +105,18 @@ const ChatBox = ({
           </div>
         ) : (
           <div className="messages">
-            {messagesArray.length > 0 &&
-              messagesArray.map((msg, index) => (
-                <div
-                  className={
-                    msg?.fromSelf ? "message-myself" : "message-otherSelf"
-                  }
-                  key={index}
-                >
-                  <p>{msg.message}</p>
-                </div>
-              ))}
+            {messagesArray.map((msg, index) => (
+              <div
+                ref={scollToEndRef}
+                className={
+                  msg?.fromSelf ? "message-myself" : "message-otherSelf"
+                }
+                key={index}
+              >
+                <p>{msg.message}</p>
+              </div>
+            ))}
+            {/* <div ref={scollToEndRef} /> */}
           </div>
         )}
       </div>
