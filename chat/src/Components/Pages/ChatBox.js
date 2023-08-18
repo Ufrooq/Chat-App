@@ -5,7 +5,13 @@ import avatar from "../assets/no-user-no-back.png";
 import roboGif from "../assets/robot.gif";
 import Picker from "emoji-picker-react";
 import "./styles.scss";
-const ChatBox = ({ currentChat, currentuser, messagesArray, isUserOnline }) => {
+const ChatBox = ({
+  currentChat,
+  currentuser,
+  messagesArray,
+  isUserOnline,
+  handleSendMessageToChats,
+}) => {
   const navigate = useNavigate();
   const { isLoggedIn, setisLoggedIn } = useContext(globalcontext);
   const [showEmojiPicker, setshowEmojiPicker] = useState(false);
@@ -57,6 +63,7 @@ const ChatBox = ({ currentChat, currentuser, messagesArray, isUserOnline }) => {
       if (response.ok) {
         setval("");
         setshowEmojiPicker(false);
+        handleSendMessageToChats(val);
       }
     } catch (error) {
       console.log(error.message);

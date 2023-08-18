@@ -15,8 +15,8 @@ const Chats = () => {
   const [currentuser, setcurrentUser] = useState([]);
   const [messagesArray, setmessagesArray] = useState([]);
   const [isUserOnline, setisUserOnline] = useState(false);
-  let socket;
-
+  const [msg, setmsg] = useState("");
+  const socket = io(process.env.REACT_APP_SERVER_URL);
   const fetchContacts = async () => {
     try {
       const response = await fetch(
@@ -37,6 +37,7 @@ const Chats = () => {
         setisLoggedIn(true);
         setcurrentUser(currentUser);
         setContacts(userContacts);
+        console.log(userContacts);
       }
     } catch (error) {
       console.log(error.message);
@@ -63,17 +64,21 @@ const Chats = () => {
       if (response.ok) {
         const data = await response.json();
         setmessagesArray(data);
-        socket.emit("join chat", currentChat?._id);
       }
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  // useEffect for socket.io connection -->
+  // getting message from chat box -->
 
+  const handleSendMessageToChats = (dataFromChatBox) => {
+    console.log(dataFromChatBox);
+    setmsg(dataFromChatBox);
+  };
+
+  // useEffect for socket.io connection -->
   useEffect(() => {
-    socket = io(process.env.REACT_APP_SERVER_URL);
     if (currentuser[0]) {
       socket.emit("setup", currentuser[0]?._id);
     }
@@ -86,6 +91,7 @@ const Chats = () => {
   useEffect(() => {
     if (currentChat) {
       fetchMessages(currentuser, currentChat);
+      socket.emit("join chat", currentChat?._id);
     }
   }, [currentChat]);
 
@@ -114,7 +120,6 @@ const Chats = () => {
                     key={index}
                     onClick={() => {
                       setcurrentChat(chat);
-                      fetchMessages();
                     }}
                   >
                     <img
@@ -147,6 +152,7 @@ const Chats = () => {
               currentuser={currentuser}
               messagesArray={messagesArray}
               isUserOnline={isUserOnline}
+              handleSendMessageToChats={handleSendMessageToChats}
             />
           </div>
         ) : (

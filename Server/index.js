@@ -48,6 +48,9 @@ io.on("connection", (socket) => {
   // user joining particular chat -->
   socket.on("join chat", (roomId) => {
     socket.join(roomId);
-    console.log("user joined " + roomId);
+    console.log("user joined" + roomId);
   });
+
+  // user sending a message -->
+  socket.on("new message", (newRecievedMessage) => {});
 });
