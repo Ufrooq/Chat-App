@@ -15,7 +15,7 @@ const Chats = () => {
   const [currentuser, setcurrentUser] = useState([]);
   const [messagesArray, setmessagesArray] = useState([]);
   const [isUserOnline, setisUserOnline] = useState(false);
-  const socket = io(process.env.REACT_APP_SERVER_URL);
+  const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
   const fetchContacts = async () => {
     try {
@@ -71,6 +71,7 @@ const Chats = () => {
 
   // getting message from chat box -->
   const handleSendMessageToChats = (dataFromChatBox) => {
+    console.log(dataFromChatBox);
     socket.emit("send new message", {
       roomId: currentChat?._id,
       message: dataFromChatBox,
@@ -78,6 +79,11 @@ const Chats = () => {
   };
 
   // useEffect fro recieveing messages from socket server -->
+  useEffect(() => {
+    socket.on("display_message", (data) => {
+      alert(data.message);
+    });
+  }, []);
 
   //useEffect for fetching chats -->
   useEffect(() => {

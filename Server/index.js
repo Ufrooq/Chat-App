@@ -39,13 +39,12 @@ const io = new Server(server, {
   pingTimeout: 60000,
 });
 io.on("connection", (socket) => {
-  console.log(socket.id);
   // user joining the application -->
-  // socket.on("setup", (userId) => {
-  //   socket.join(userId);
-  //   console.log(userId + " connected ");
-  //   socket.emit("connected");
-  // });
+  socket.on("setup", (userId) => {
+    socket.join(userId);
+    console.log(userId + " connected ");
+    socket.emit("connected");
+  });
   // // user joining particular chat -->
   // socket.on("join chat", (roomId) => {
   //   socket.join(roomId);
@@ -54,10 +53,9 @@ io.on("connection", (socket) => {
 
   // user sending a message -->
   socket.on("send new message", ({ roomId, message }) => {
-    // io.to(roomId).emit("display message on frontend", {
-    //   roomId: roomId,
-    //   message: message,
-    // });
-    console.log(roomId, message);
+    socket.broadcast.emit("display_message", {
+      roomId: roomId,
+      message: message,
+    });
   });
 });
