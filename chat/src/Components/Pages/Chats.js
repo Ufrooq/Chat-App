@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import avatar from "../assets/no-user-no-back.png";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
@@ -16,6 +16,7 @@ const Chats = () => {
   const [messagesArray, setmessagesArray] = useState([]);
   const [isUserOnline, setisUserOnline] = useState(false);
   const socket = io(process.env.REACT_APP_SERVER_URL);
+
   const fetchContacts = async () => {
     try {
       const response = await fetch(
@@ -33,7 +34,6 @@ const Chats = () => {
         navigate("/avatar");
         setisLoggedIn(false);
       } else {
-        console.log(userContacts);
         setisLoggedIn(true);
         setcurrentUser(currentUser);
         setContacts(userContacts);
@@ -71,46 +71,17 @@ const Chats = () => {
 
   // getting message from chat box -->
   const handleSendMessageToChats = (dataFromChatBox) => {
-    if (currentChat) {
-      socket.emit("send new message", {
-        roomId: currentChat._id,
-        message: dataFromChatBox,
-      });
-    }
+    socket.emit("send new message", {
+      roomId: currentChat?._id,
+      message: dataFromChatBox,
+    });
   };
 
-  // useEffect for reciving messages from socketServer to display-->
-  useEffect(() => {
-    socket.on("display message on frontend", ({ roomId, message }) => {
-      if (roomId === currentChat?._id) {
-        setmessagesArray((prevMessagesArray) => [
-          ...prevMessagesArray,
-          { fromSelf: true, message: message },
-        ]);
-      }
-      console.log(messagesArray);
-    });
-    return () => {
-      socket.off("display message on frontend", handleSendMessageToChats);
-    };
-  });
-
-  // useEffect for socket.io connection -->
-  useEffect(() => {
-    if (currentuser[0]) {
-      socket.emit("setup", currentuser[0]?._id);
-    }
-    socket.on("connection", () => {
-      setisUserOnline(true);
-    });
-  }, [currentuser]);
+  // useEffect fro recieveing messages from socket server -->
 
   //useEffect for fetching chats -->
   useEffect(() => {
-    if (currentChat) {
-      fetchMessages(currentuser, currentChat);
-      socket.emit("join chat", currentChat?._id);
-    }
+    fetchMessages(currentuser, currentChat);
   }, [currentChat]);
 
   //general useEffect -->

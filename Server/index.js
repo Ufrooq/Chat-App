@@ -36,27 +36,28 @@ const io = new Server(server, {
   cors: {
     corsOptions,
   },
+  pingTimeout: 60000,
 });
 io.on("connection", (socket) => {
+  console.log(socket.id);
   // user joining the application -->
-  socket.on("setup", (userId) => {
-    socket.join(userId);
-    console.log(userId + " connected ");
-    socket.emit("connected");
-  });
-
-  // user joining particular chat -->
-  socket.on("join chat", (roomId) => {
-    socket.join(roomId);
-    console.log("user joined " + roomId + " room");
-  });
+  // socket.on("setup", (userId) => {
+  //   socket.join(userId);
+  //   console.log(userId + " connected ");
+  //   socket.emit("connected");
+  // });
+  // // user joining particular chat -->
+  // socket.on("join chat", (roomId) => {
+  //   socket.join(roomId);
+  //   console.log("user joined " + roomId + " room");
+  // });
 
   // user sending a message -->
   socket.on("send new message", ({ roomId, message }) => {
+    // io.to(roomId).emit("display message on frontend", {
+    //   roomId: roomId,
+    //   message: message,
+    // });
     console.log(roomId, message);
-    io.to(roomId).emit("display message on frontend", {
-      roomId: roomId,
-      message: message,
-    });
   });
 });
