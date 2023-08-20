@@ -5,6 +5,8 @@ import Chats from "./Components/Pages/Chats";
 import Avatar from "./Components/Pages/Avatar";
 import { createContext, useState } from "react";
 import "./App.scss";
+import io from "socket.io-client";
+const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export const globalcontext = createContext();
 function App() {
@@ -23,7 +25,7 @@ function App() {
         {/* <div id="mini-circle"></div> */}
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Chats />} />
+            <Route path="/" element={<Chats socket={socket} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/avatar" element={<Avatar />} />

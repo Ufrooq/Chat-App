@@ -36,26 +36,16 @@ const io = new Server(server, {
   cors: {
     corsOptions,
   },
-  pingTimeout: 60000,
 });
-io.on("connection", (socket) => {
-  // user joining the application -->
-  socket.on("setup", (userId) => {
-    socket.join(userId);
-    console.log(userId + " connected ");
-    socket.emit("connected");
-  });
-  // // user joining particular chat -->
-  // socket.on("join chat", (roomId) => {
-  //   socket.join(roomId);
-  //   console.log("user joined " + roomId + " room");
-  // });
 
-  // user sending a message -->
-  socket.on("send new message", ({ roomId, message }) => {
-    socket.broadcast.emit("display_message", {
-      roomId: roomId,
-      message: message,
-    });
+io.on("connection", (socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+  socket.on("disconnect", () => {
+    console.log("🔥: A user disconnected");
+  });
+
+  socket.on("message", (data) => {
+    console.log("💬", data);
+    io.emit("messageResponse", data);
   });
 });

@@ -5,13 +5,7 @@ import avatar from "../assets/no-user-no-back.png";
 import roboGif from "../assets/robot.gif";
 import Picker from "emoji-picker-react";
 import "./styles.scss";
-const ChatBox = ({
-  currentChat,
-  currentuser,
-  messagesArray,
-  isUserOnline,
-  handleSendMessageToChats,
-}) => {
+const ChatBox = ({ currentChat, currentuser, messagesArray, socket }) => {
   const navigate = useNavigate();
   const { isLoggedIn, setisLoggedIn } = useContext(globalcontext);
   const [showEmojiPicker, setshowEmojiPicker] = useState(false);
@@ -62,9 +56,13 @@ const ChatBox = ({
         }
       );
       if (response.ok) {
+        socket.emit("message", {
+          text: val,
+          id: `${socket.id}${Math.random()}`,
+          socketID: socket.id,
+        });
         setval("");
         setshowEmojiPicker(false);
-        handleSendMessageToChats(val);
         scollToEndRef.current?.scrollIntoView();
       }
     } catch (error) {

@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand&display=swap");
+body {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 ul,
+li,
+p,
+button {
+  margin: 0px;
+  padding: 0px;
+}
+
+::-moz-selection {
+  background-color: #da22ff;
+}
+
+::selection {
+  background-color: #da22ff;
+}/*# sourceMappingURL=index.css.map */

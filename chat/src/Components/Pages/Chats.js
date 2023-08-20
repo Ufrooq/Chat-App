@@ -5,9 +5,8 @@ import Loader from "./Loader";
 import ChatBox from "./ChatBox";
 import { globalcontext } from "../../App";
 import "./styles.scss";
-import io from "socket.io-client";
 
-const Chats = () => {
+const Chats = ({ socket }) => {
   const navigate = useNavigate();
   const { isLoggedIn, setisLoggedIn } = useContext(globalcontext);
   const [contacts, setContacts] = useState([]);
@@ -15,7 +14,7 @@ const Chats = () => {
   const [currentuser, setcurrentUser] = useState([]);
   const [messagesArray, setmessagesArray] = useState([]);
   const [isUserOnline, setisUserOnline] = useState(false);
-  const socket = io.connect(process.env.REACT_APP_SERVER_URL);
+  // const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
   const fetchContacts = async () => {
     try {
@@ -69,23 +68,13 @@ const Chats = () => {
     }
   };
 
-  // getting message from chat box -->
-  const handleSendMessageToChats = (dataFromChatBox) => {
-    console.log(dataFromChatBox);
-    socket.emit("send new message", {
-      roomId: currentChat?._id,
-      message: dataFromChatBox,
-    });
-  };
-
-  // useEffect fro recieveing messages from socket server -->
   useEffect(() => {
-    socket.on("display_message", (data) => {
-      alert(data.message);
-    });
-  }, []);
+    socket.on("messageResponse", (data) =>
+      setmessagesArray([...messagesArray, { fromSelf: true, message: data }])
+    );
+  }, [socket, messagesArray]);
 
-  //useEffect for fetching chats -->
+  //useEffect for fetching chats and seeting room id-->
   useEffect(() => {
     fetchMessages(currentuser, currentChat);
   }, [currentChat]);
@@ -147,7 +136,7 @@ const Chats = () => {
               currentuser={currentuser}
               messagesArray={messagesArray}
               isUserOnline={isUserOnline}
-              handleSendMessageToChats={handleSendMessageToChats}
+              socket={socket}
             />
           </div>
         ) : (
