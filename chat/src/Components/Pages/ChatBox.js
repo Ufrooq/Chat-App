@@ -56,10 +56,10 @@ const ChatBox = ({ currentChat, currentuser, messagesArray, socket }) => {
         }
       );
       if (response.ok) {
-        socket.emit("message", {
-          text: val,
-          id: `${socket.id}${Math.random()}`,
-          socketID: socket.id,
+        socket.emit("send-msg", {
+          to: currentChat?._id,
+          from: currentuser[0]?._id,
+          msg: val,
         });
         setval("");
         setshowEmojiPicker(false);

@@ -38,14 +38,45 @@ const io = new Server(server, {
   },
 });
 
+global.onlineUsers = new Map();
 io.on("connection", (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
+  // adding user⚡ by 🆔 -->
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    console.log(userId);
+    onlineUsers.set(userId, socket.id);
+  });
+
+  // recieving message💬 from front-end
+  socket.on("send-msg", (data) => {
+    // const sendUserSocket = onlineUsers.get(data.to);
+    console.log(data);
+    // if (sendUserSocket) {
+    //   // sending message💬 to front-end
+    //   socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+    // }
+  });
+
+  // removing user 👋-->
   socket.on("disconnect", () => {
     console.log("🔥: A user disconnected");
   });
-
-  socket.on("message", (data) => {
-    console.log("💬", data);
-    io.emit("messageResponse", data);
-  });
 });
+// io.on("connection", (socket) => {
+//   console.log(`⚡: ${socket.id} user just connected!`);
+
+//   socket.on("join room", (userID) => {
+//     console.log(`🆔 ${userID} joined the room`);
+//     socket.join(userID);
+//   });
+
+//   socket.on("message", ({ text, roomId }) => {
+//     console.log("💬 ", text, "sended to 🆔 ", roomId);
+//     io.to(roomId).emit("messageResponse", text);
+//   });
+
+//   socket.on("disconnect", () => {
+//     console.log("🔥: A user disconnected");
+//   });
+// });

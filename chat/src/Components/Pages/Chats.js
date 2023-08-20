@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import ChatBox from "./ChatBox";
 import { globalcontext } from "../../App";
+import { io } from "socket.io-client";
 import "./styles.scss";
 
 const Chats = ({ socket }) => {
@@ -36,6 +37,9 @@ const Chats = ({ socket }) => {
         setisLoggedIn(true);
         setcurrentUser(currentUser);
         setContacts(userContacts);
+        userContacts.forEach((contact) => {
+          socket.emit("join", contact._id);
+        });
       }
     } catch (error) {
       console.log(error.message);
@@ -69,8 +73,15 @@ const Chats = ({ socket }) => {
   };
 
   useEffect(() => {
-    socket.on("messageResponse", (data) =>
-      setmessagesArray([...messagesArray, { fromSelf: true, message: data }])
+    if (currentuser) {
+      socket.current = io(process.env.REACT_APP_SERVER_URL);
+      socket.current.emit("add-user", currentuser[0]?._id);
+    }
+  }, [currentuser]);
+
+  useEffect(() => {
+    socket.on("messageResponse", (text) =>
+      setmessagesArray([...messagesArray, { fromSelf: true, message: text }])
     );
   }, [socket, messagesArray]);
 
