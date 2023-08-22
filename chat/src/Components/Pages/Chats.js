@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import ChatBox from "./ChatBox";
 import { globalcontext } from "../../App";
-import { io } from "socket.io-client";
 import "./styles.scss";
 
 const Chats = ({ socket }) => {
@@ -37,9 +36,6 @@ const Chats = ({ socket }) => {
         setisLoggedIn(true);
         setcurrentUser(currentUser);
         setContacts(userContacts);
-        userContacts.forEach((contact) => {
-          socket.emit("join", contact._id);
-        });
       }
     } catch (error) {
       console.log(error.message);
@@ -73,17 +69,22 @@ const Chats = ({ socket }) => {
   };
 
   useEffect(() => {
-    if (currentuser) {
-      socket.current = io(process.env.REACT_APP_SERVER_URL);
-      socket.current.emit("add-user", currentuser[0]?._id);
-    }
+    socket.emit("addUser", currentuser[0]?._id);
   }, [currentuser]);
 
   useEffect(() => {
-    socket.on("messageResponse", (text) =>
-      setmessagesArray([...messagesArray, { fromSelf: true, message: text }])
-    );
-  }, [socket, messagesArray]);
+    socket.on("messageResponse", (data) => {
+      if (currentChat?._id == data.currentReciever) {
+        console.log(
+          "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+        );
+        setmessagesArray([
+          ...messagesArray,
+          { fromSelf: false, message: data.text },
+        ]);
+      }
+    });
+  }, [socket, messagesArray, currentChat]);
 
   //useEffect for fetching chats and seeting room id-->
   useEffect(() => {

@@ -11,6 +11,7 @@ const ChatBox = ({ currentChat, currentuser, messagesArray, socket }) => {
   const [showEmojiPicker, setshowEmojiPicker] = useState(false);
   const [val, setval] = useState("");
   const scollToEndRef = useRef(null);
+  const [messages, setmessages] = useState([messagesArray]);
   const handleLogout = async () => {
     try {
       const response = await fetch(
@@ -56,11 +57,13 @@ const ChatBox = ({ currentChat, currentuser, messagesArray, socket }) => {
         }
       );
       if (response.ok) {
-        socket.emit("send-msg", {
-          to: currentChat?._id,
-          from: currentuser[0]?._id,
-          msg: val,
+        socket.emit("message", {
+          text: val,
+          currentReciever: currentChat?._id,
+          socketID: socket.id,
+          currentSenderID: currentuser[0]?._id,
         });
+        setmessages([...messages, { fromSelf: true, message: val }]);
         setval("");
         setshowEmojiPicker(false);
         scollToEndRef.current?.scrollIntoView();
@@ -73,6 +76,7 @@ const ChatBox = ({ currentChat, currentuser, messagesArray, socket }) => {
   // useEffect for onscroll -->
   useEffect(() => {
     scollToEndRef.current?.scrollIntoView();
+    setmessages(messagesArray);
   });
 
   return (
@@ -104,8 +108,8 @@ const ChatBox = ({ currentChat, currentuser, messagesArray, socket }) => {
           </div>
         ) : (
           <div className="messages">
-            {messagesArray &&
-              messagesArray.map((msg, index) => (
+            {messages &&
+              messages.map((msg, index) => (
                 <div
                   className={
                     msg?.fromSelf ? "message-myself" : "message-otherSelf"

@@ -38,45 +38,43 @@ const io = new Server(server, {
   },
 });
 
-global.onlineUsers = new Map();
-io.on("connection", (socket) => {
-  console.log(`⚡: ${socket.id} user just connected!`);
-  // adding user⚡ by 🆔 -->
-  global.chatSocket = socket;
-  socket.on("add-user", (userId) => {
-    console.log(userId);
-    onlineUsers.set(userId, socket.id);
-  });
+// Modify the connection handler to store sockets for each user
+// const userSockets = {};
 
-  // recieving message💬 from front-end
-  socket.on("send-msg", (data) => {
-    // const sendUserSocket = onlineUsers.get(data.to);
-    console.log(data);
-    // if (sendUserSocket) {
-    //   // sending message💬 to front-end
-    //   socket.to(sendUserSocket).emit("msg-recieve", data.msg);
-    // }
-  });
-
-  // removing user 👋-->
-  socket.on("disconnect", () => {
-    console.log("🔥: A user disconnected");
-  });
-});
 // io.on("connection", (socket) => {
 //   console.log(`⚡: ${socket.id} user just connected!`);
 
-//   socket.on("join room", (userID) => {
-//     console.log(`🆔 ${userID} joined the room`);
-//     socket.join(userID);
+//   socket.on("user_connected", (userId) => {
+//     userSockets[userId] = socket.id;
 //   });
 
-//   socket.on("message", ({ text, roomId }) => {
-//     console.log("💬 ", text, "sended to 🆔 ", roomId);
-//     io.to(roomId).emit("messageResponse", text);
+//   socket.on("message", (data) => {
+//     console.log("💬", data);
+//     const toUserId = data.toUserId; // Replace with the actual field that identifies the recipient user
+//     const recipientSocket = userSockets[toUserId];
+//     if (recipientSocket) {
+//       io.to(recipientSocket).emit("messageResponse", data);
+//     }
 //   });
 
 //   socket.on("disconnect", () => {
 //     console.log("🔥: A user disconnected");
 //   });
 // });
+
+let rooms = {};
+
+io.on("connection", (socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+  socket.on("addUser", (currentUserId) => {
+    rooms[currentUserId] = socket.id;
+  });
+  socket.on("message", (data) => {
+    console.log("💬", data);
+    io.to(rooms[data.currentReciever]).emit("messageResponse", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("🔥: A user disconnected");
+  });
+});
